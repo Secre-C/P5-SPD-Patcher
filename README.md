@@ -34,8 +34,11 @@ Press enter, and the program will spit out a .spdp file, as well as the .dds tex
 }
 ```
 "SpdPath" is the path to the .spd in the game's directory, and should be changed immediately, which I'll get to in a second.
+
 "TextureName" is the name of the texture you're going to patch in, and doesn't need to be changed as it should already match the .dds texture that was created by the program.
+
 "Texture ID" is the ID of the texture in the .spd file, and is different from the Index. This doesn't need to be changed as the program should have it set correctly already, but the Texture Ids can be viewed by opening the .spd file in Amicitia.
+
 "SpriteIDs" is a list of all the sprites that use the texture that you entered into the program. I'll go over how to trim the list to what you need later.
 
 The first thing you should do is change the Spd Path field to reflect the .spd's path within the game's files. for this example, ```"p5camp_00SPD.spd"``` should be changed to ```"init\\camp\\p5camp_00SPD.spd"``` Make sure you use double backslashes instead of single ones.
