@@ -14,10 +14,10 @@ namespace SPD_Patcher
                 Console.ReadKey();
                 return;
             }
-            FileInfo arg0 = new FileInfo(args[0]);
+            FileInfo arg0 = new (args[0]);
             if (arg0.Extension == ".spd")
             {
-                Console.WriteLine("Input Texture Index");
+                Console.WriteLine("Input Texture Indexes, seperated by spaces");
                 string textureIndex = Console.ReadLine();
                 ReadSPD(args[0], textureIndex);
             }
@@ -29,7 +29,7 @@ namespace SPD_Patcher
                 }
                 else
                 {
-                    readSPDPatch(args);
+                    ReadSPDPatch(args);
                 }
             }
             else
@@ -43,7 +43,7 @@ namespace SPD_Patcher
         {
             string[] textureIndexArray = textureIndexStr.Split(' ');
             int length = textureIndexArray.Length;
-            int textureIndex = 0;
+            int textureIndex;
             List<uint> textureIDList = new();
             List<uint> textureOffsetList = new();
             List<uint> textureSizeList = new();
@@ -55,7 +55,7 @@ namespace SPD_Patcher
             {
                 textureIndex = Convert.ToInt32(textureIndexArray[i]) - 1;
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-                using (BinaryObjectReader SPDFile = new BinaryObjectReader(spdFileName, Endianness.Little, Encoding.GetEncoding(932)))
+                using (BinaryObjectReader SPDFile = new(spdFileName, Endianness.Little, Encoding.GetEncoding(932)))
                 {
                     SPDFile.ReadInt32(); //Magic
                     SPDFile.ReadInt32(); //field04
@@ -116,7 +116,7 @@ namespace SPD_Patcher
 
                     string spdTextureFile = Path.Combine(Path.GetDirectoryName(spdFileName), $"{OutputTextureName[i]}.dds");
 
-                    using (BinaryObjectWriter NewTextureFile = new BinaryObjectWriter(spdTextureFile, Endianness.Little, Encoding.GetEncoding(932)))
+                    using (BinaryObjectWriter NewTextureFile = new(spdTextureFile, Endianness.Little, Encoding.GetEncoding(932)))
                     {
                         SPDFile.AtOffset(textureOffsetList[textureIndex]);
                         for (int j = 0; j < textureSizeList[textureIndex]; j++)
@@ -127,7 +127,7 @@ namespace SPD_Patcher
                 }
             }
 
-            createSPDPatch(spriteIDLine, textureIDList, textureIndexArray, OutputTextureName, spdFileName);
+            CreateSPDPatch(spriteIDLine, textureIDList, textureIndexArray, OutputTextureName, spdFileName);
         }
 
         public class SpdPatches
@@ -142,9 +142,9 @@ namespace SPD_Patcher
             public uint TextureID { get; set; }
             public string SpriteIDs{ get; set; }
         }
-        static void createSPDPatch(string[] spriteIDLine, List<uint> textureIDList, string[] textureIndexArray, string[] textureString, string spdFileName)
+        static void CreateSPDPatch(string[] spriteIDLine, List<uint> textureIDList, string[] textureIndexArray, string[] textureString, string spdFileName)
         {
-            SpdPatches SpdPatches = new SpdPatches();
+            SpdPatches SpdPatches = new();
             List<SpdPatchData> patchData = new();
 
             SpdPatches.Version = 1;
@@ -152,12 +152,13 @@ namespace SPD_Patcher
             {
                 int textureIndex = Convert.ToInt32(textureIndexArray[i]) - 1;
 
-                SpdPatchData SpdPatchData = new SpdPatchData();
-
-                SpdPatchData.SpdPath = Path.GetFileName(spdFileName);
-                SpdPatchData.TextureName = $"{textureString[i]}.dds";
-                SpdPatchData.TextureID = textureIDList[textureIndex];
-                SpdPatchData.SpriteIDs = spriteIDLine[i];
+                SpdPatchData SpdPatchData = new()
+                {
+                    SpdPath = Path.GetFileName(spdFileName),
+                    TextureName = $"{textureString[i]}.dds",
+                    TextureID = textureIDList[textureIndex],
+                    SpriteIDs = spriteIDLine[i]
+                };
 
                 patchData.Add(SpdPatchData);
             } 
@@ -168,7 +169,7 @@ namespace SPD_Patcher
             File.WriteAllText(Path.Combine(Path.GetDirectoryName(spdFileName), $"{Path.GetFileNameWithoutExtension(spdFileName)}.spdp"), json);
         }
 
-        static void readSPDPatch(string[] args)
+        static void ReadSPDPatch(string[] args)
         {
             string spdPatchFile = args[0];
             string originalSpd = args[1];
