@@ -4,7 +4,7 @@
 
 ## Usage
 ### Creating an Spd Patch
-To use, simply drag a .spd file onto the programs .exe. You'll be asked to input the Index of the textures you want to make patches for. The index is based on the order shown of the spd's textures in Amicitia or PersonaEditor. The top one is index 1, the one below 2, etc.
+To use, simply drag a .spd file onto the programs .exe. You'll be asked to input the Indexes of the textures you want to make patches for. The index is based on the order shown of the spd's textures in Amicitia or PersonaEditor. The top one is index 1, the one below 2, etc.
 
 ![image](https://user-images.githubusercontent.com/89033534/178137613-402569d0-cc80-463e-9151-f3561fd0f82e.png)
 
