@@ -2,6 +2,9 @@
 ## A tool for creating Spd patches to use with Aemulus.
 [.NET 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) is required to use this program.
 
+#### Note:
+It's not recommended to use this tool to make 4K mod add-ons, since the patches won't be able to be used if the user has the 4k mod in any other cpk
+
 ## Usage
 ### Creating an Spd Patch
 To use, simply drag a .spd file onto the programs .exe. You'll be asked to input the Indexes of the textures you want to make patches for. The index is based on the order shown of the spd's textures in Amicitia or PersonaEditor. The top one is index 1, the one below 2, etc.
