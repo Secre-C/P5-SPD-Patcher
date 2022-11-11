@@ -53,7 +53,7 @@ namespace SPD_Patcher
 
             for (int i = 0; i < textureIndexArray.Length; i++)
             {
-                textureIndex = Convert.ToInt32(textureIndexArray[i]) - 1;
+                textureIndex = Convert.ToInt32(textureIndexArray[i]);
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 using (BinaryObjectReader SPDFile = new(spdFileName, Endianness.Little, Encoding.GetEncoding(932)))
                 {
@@ -150,7 +150,7 @@ namespace SPD_Patcher
             SpdPatches.Version = 1;
             for (int i = 0; i < textureIndexArray.Length; i++)
             {
-                int textureIndex = Convert.ToInt32(textureIndexArray[i]) - 1;
+                int textureIndex = Convert.ToInt32(textureIndexArray[i]);
 
                 SpdPatchData SpdPatchData = new()
                 {
