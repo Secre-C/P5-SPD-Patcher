@@ -174,6 +174,7 @@ namespace SPD_Patcher
             string spdPatchFile = args[0];
             string originalSpd = args[1];
             string outputSpd = args[2];
+            uint highestTextureID = 0;
 
            if (!File.Exists(outputSpd))
             {
@@ -214,6 +215,10 @@ namespace SPD_Patcher
                             if (textureCount - 1 != i)
                             {
                                 uint textureID = SPDFile.ReadUInt32();
+
+                                if (textureID > highestTextureID)
+                                    highestTextureID = textureID;
+
                                 if (textureID == textureId)
                                 {
                                     textureParams.Add(textureID); //texture id
@@ -253,7 +258,7 @@ namespace SPD_Patcher
                             }
                             else
                             {
-                                NewSPDFile.Write((uint)textureCount);
+                                NewSPDFile.Write(highestTextureID + 1); //texture ID
                                 NewSPDFile.Write(textureParams[1]); //field04
                                 NewSPDFile.Write((uint)SPDFile.Length + 48); //textureOffset
                                 NewSPDFile.Write((uint)(new FileInfo(texturePath).Length)); //textureSize
@@ -277,7 +282,7 @@ namespace SPD_Patcher
                             if (spriteIDList.Contains($"{spriteID}"))
                             {
                                 uint spriteTextureID = SPDFile.ReadUInt32();
-                                NewSPDFile.Write((uint)textureCount);
+                                NewSPDFile.Write(highestTextureID + 1);
                             }
                             else
                             {
