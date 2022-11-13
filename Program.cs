@@ -80,7 +80,7 @@ namespace SPD_Patcher
                         textureStringList.Add(SPDFile.ReadString(StringBinaryFormat.FixedLength, 16));
                     }
 
-                    OutputTextureName[i] = $"{textureStringList[textureIndex]}_patch";
+                    OutputTextureName[i] = $"{textureStringList[textureIndex]}_{textureIndex:D2}_patch";
 
                     for (int j = 0; j < spriteCount; j++)
                     {
